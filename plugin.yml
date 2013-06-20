@@ -46,7 +46,6 @@ permissions:
       SudoOp.Request: true
       SudoOp.Cancel: true
   SudoOp.Request:
-    default: true
     description: allows user to request op privileges for a command
   SudoOp.Approve:
     description: allows a user to approve another users's request
