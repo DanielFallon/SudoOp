@@ -1,0 +1,56 @@
+name: SudoOp
+version: 1.0
+description: Allows players to take ServerOperator privileges either with sudo password or approval by another user. 
+author: DanielF847
+
+main: org.bitbucket.dfallon.sudoOp.SudoOp
+database: false
+
+commands:
+  SudoOp:
+    description: request that a command be performed
+    permission: SudoOp.Request
+    usage: /<command> [Command] [Args]
+  SudoApprove:
+    description: approve another user to perform a command
+    permission: SudoOp.Approve
+    usage: /<command> [username] [approval code]
+  SudoCancel:
+    description: cancel a command that you have previously requested
+    permission: SudoOp.Cancel
+    usage: /<command> [approval code]
+  SudoDeny:
+    description: deny another user from performing a command
+    permission: SudoOp.Deny
+    usage: /<command> [username] [approval code]
+
+
+permissions:
+  SudoOp.*:
+    description: Gives access to all commands.
+    default: op
+    children:
+      SudoOp.Request: true
+      SudoOp.Approve: true
+      SudoOp.Cancel: true
+      SudoOp.Deny: true
+  SudoOp.Overseer:
+    description: allows user to approve or deny another request
+    default: op
+    children:
+      SudoOp.Approve: true
+      SudoOp.Deny: true
+  SudoOp.Sender:
+    description: allows a user to make and cancel their own requests for a command
+    children:
+      SudoOp.Request: true
+      SudoOp.Cancel: true
+  SudoOp.Request:
+    default: true
+    description: allows user to request op privileges for a command
+  SudoOp.Approve:
+    description: allows a user to approve another users's request
+  SudoOp.Cancel:
+    description: allows a user to cancel their own request
+  SudoOp.Deny:
+    description: allows a user to deny another user's request

@@ -1,0 +1,7 @@
+#commands that can be used while in op mode
+#
+
+whiteListedCommands:
+  - msg
+
+madeOp:
