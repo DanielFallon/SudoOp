@@ -16,6 +16,9 @@ public class DelayedCancellation extends BukkitRunnable {
 	}
 	@Override
 	public void run() {
+		//if command already removed from list of open commands, then don't cancel
+		if(plugin.openCommands.containsKey(approvalCode))
+			return;
 		// cancel command
 		opcmd.cancel();
 		//log action

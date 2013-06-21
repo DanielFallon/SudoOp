@@ -42,6 +42,7 @@ public class CommandSudoOp extends SafeCommandExcecutor{
 				OperatorCommand opcmd = plugin.openCommands.get(key);
 				notifyOverseers(key, opcmd);
 				setupCancellation(opcmd, key);
+				return true;
 				
 			}
 			
@@ -51,7 +52,7 @@ public class CommandSudoOp extends SafeCommandExcecutor{
 
 	private void setupCancellation(OperatorCommand opcmd, String approvalCode) {
 		//get delay in seconds
-		long delay = ((long)plugin.getConfig().get("cancellationDelay"))*1000;
+		long delay = (((int)plugin.getConfig().get("cancellationDelay"))*20);
 		//schedule cancelation
 		plugin.getServer().getScheduler()
 			.scheduleSyncDelayedTask(
@@ -75,14 +76,14 @@ public class CommandSudoOp extends SafeCommandExcecutor{
 				CommandSender s = (CommandSender) p;
 				if (!(s.equals(opcmd.getSender()))) {
 					numPlayersNotified++;
-					String message = opcmd.getSender() + " wants to use: "
-							+ opcmd.getCommand();
+					String message = opcmd.getSender().getName() + " wants to use: "
+							+"\n\"/" + opcmd.getCommand()+"\"";
 					if (s.hasPermission("SudoOp.Approve"))
 						message = message + "\n" + "Send \"/SudoApprove " +
-								opcmd.getSender()+ " " + key + "\" to approve.";
+								opcmd.getSender().getName()+ " " + key + "\" to approve.";
 					if (s.hasPermission("SudoOp.Deny"))
 						message = message + "\n" + "Send \"/SudoDeny " +
-								opcmd.getSender() + " " + key + "\" to deny.";
+								opcmd.getSender().getName() + " " + key + "\" to deny.";
 					s.sendMessage(message);
 				}else if(s.hasPermission("SudoOp.Cancel")){
 					String message = "Command requested: "+opcmd.getCommand()
