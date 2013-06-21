@@ -32,6 +32,7 @@ public class OperatorCommand {
 	}
 	
 	public void deny(CommandSender denier){
+		this.overseer = denier;
 		status = 3;
 		completionTime = new Date();
 		
