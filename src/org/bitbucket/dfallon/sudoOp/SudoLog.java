@@ -11,11 +11,11 @@ public class SudoLog {
 	private File logFile;
 	
 	public SudoLog(JavaPlugin plugin, String filename){
-		logFile = new File(plugin.getDataFolder(),filename);	
+		logFile = new File(plugin.getDataFolder(), filename);	
 	}
 	
 	public void addLine(String line) throws IOException{
-		BufferedWriter writer = new BufferedWriter(new FileWriter(logFile));
+		BufferedWriter writer = new BufferedWriter(new FileWriter(logFile, true));
 		writer.append(line);
 		writer.close();
 	}

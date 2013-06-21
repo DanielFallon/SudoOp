@@ -7,7 +7,7 @@ import org.bitbucket.dfallon.sudoOp.commands.CommandSudoApprove;
 import org.bitbucket.dfallon.sudoOp.commands.CommandSudoCancel;
 import org.bitbucket.dfallon.sudoOp.commands.CommandSudoDeny;
 import org.bitbucket.dfallon.sudoOp.commands.CommandSudoOp;
-import org.bukkit.entity.Player;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -33,7 +33,7 @@ public class SudoOp extends JavaPlugin implements Listener{
 		if(madeOp != null){
 			for(Object o: madeOp){
 				String p = (String) o;
-				Player player = getServer().getPlayer(p);
+				OfflinePlayer player = getServer().getOfflinePlayer(p);
 				if(player != null){
 					getLogger().info("Deopping "+player.getName());
 					player.setOp(false);

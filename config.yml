@@ -1,6 +1,7 @@
-#commands that can be used while in op mode
-#
+#delay before unapproved commands are automatically cancelled
+cancellationDelay: 300
 
+#commands that can be used while in op mode
 whiteListedCommands:
   - msg
 

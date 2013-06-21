@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 
+import org.bitbucket.dfallon.sudoOp.DelayedCancellation;
 import org.bitbucket.dfallon.sudoOp.OperatorCommand;
 import org.bitbucket.dfallon.sudoOp.SudoOp;
 import org.bukkit.command.Command;
@@ -38,12 +39,23 @@ public class CommandSudoOp extends SafeCommandExcecutor{
 				}while(plugin.openCommands.containsKey(key));
 				//add to hashmap
 				plugin.openCommands.put(key, new OperatorCommand(player, command));
-				notifyOverseers(key, plugin.openCommands.get(key));
+				OperatorCommand opcmd = plugin.openCommands.get(key);
+				notifyOverseers(key, opcmd);
+				setupCancellation(opcmd, key);
 				
 			}
 			
 		}
 		return false;
+	}
+
+	private void setupCancellation(OperatorCommand opcmd, String approvalCode) {
+		//get delay in seconds
+		long delay = ((long)plugin.getConfig().get("cancellationDelay"))*1000;
+		//schedule cancelation
+		plugin.getServer().getScheduler()
+			.scheduleSyncDelayedTask(
+				plugin, new DelayedCancellation(plugin, approvalCode, opcmd), delay);
 	}
 
 	private void notifyOverseers(String key, OperatorCommand opcmd) {
@@ -54,11 +66,15 @@ public class CommandSudoOp extends SafeCommandExcecutor{
 		Set<Permissible> deniers = pm.getPermissionSubscriptions("SudoOp.Deny");
 		notifiedPlayers.addAll(approvers);
 		notifiedPlayers.addAll(deniers);
+		//add command sending player
+		notifiedPlayers.add(opcmd.getSender());
 		
+		int numPlayersNotified = 0;
 		for(Permissible p: notifiedPlayers){
 			if(p instanceof CommandSender){
 				CommandSender s = (CommandSender) p;
 				if (!(s.equals(opcmd.getSender()))) {
+					numPlayersNotified++;
 					String message = opcmd.getSender() + " wants to use: "
 							+ opcmd.getCommand();
 					if (s.hasPermission("SudoOp.Approve"))
@@ -75,6 +91,9 @@ public class CommandSudoOp extends SafeCommandExcecutor{
 				}
 			}
 		}
+		if(numPlayersNotified == 0)
+			opcmd.getSender().sendMessage("No one is available right now to approve your request," +
+					"\nit will remain open for 5 minutes.");
 	}
 	
 }
