@@ -3,6 +3,6 @@ cancellationDelay: 300
 
 #commands that can be used while in op mode
 whiteListedCommands:
-  - msg	
+  - msg
 
 madeOp:
