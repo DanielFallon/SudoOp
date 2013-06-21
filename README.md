@@ -17,3 +17,13 @@ by being approved to excecute the command by an overseer.
 * **/sudoDeny** [Username] [Approval Code]
   + Denies an open request for command excectuion
   + permission: SudoOp.Deny
+
+
+###//TODO
+* implement database technology for logging
+  + allow notifications to be sent to moderators upon login about changes that occurred while they were gone
+  + allow moderators to search requests
+* create configuration for blacklisted commands
+* create configuration for permissions with which approved users will excecute the approved commands
+* allow overseers to list open commands
+* allow users to list their open commands
