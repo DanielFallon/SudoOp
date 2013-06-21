@@ -51,7 +51,7 @@ public class CommandSudoOp extends SafeCommandExcecutor{
 
 	private void setupCancellation(OperatorCommand opcmd, String approvalCode) {
 		//get delay in seconds
-		long delay = ((long)plugin.getConfig().get("cancellationDelay"))*1000;
+		long delay = (((int)plugin.getConfig().get("cancellationDelay"))*1000);
 		//schedule cancelation
 		plugin.getServer().getScheduler()
 			.scheduleSyncDelayedTask(
